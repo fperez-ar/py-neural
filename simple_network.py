@@ -3,13 +3,14 @@ import layer
 
 class Simple_network:
 
-    #receives a
+    #receives a list of ints
     def __init__(self, quantity_neurons_layer):
         self.layers = []
 
         q_layers = len(quantity_neurons_layer)
         for i in range ( q_layers ):
             q_neurons = quantity_neurons_layer[i]
+            #create the layers with their appropiate size
             self.layers.append( layer.Layer(q_neurons) )
 
         for j in range ( q_layers - 1 ):
@@ -58,9 +59,20 @@ class Simple_network:
 
         return output_data
 
+    def get_errors(self):
+        layer_list = []
+        for layer in self.layers:
+            neuron_error = []
+            for neuron in layer.neurons:
+                neuron_error.append( neuron.error )
+            layer_list.append( neuron_error )
+        return layer_list
 
     def train(self, target_input_values, target_output_values):
+
         l_index = len (self.layers) - 1
+        print(target_input_values)
+        print(target_output_values)
         self.set_target_values(target_output_values, l_index)
         self.get_values(target_input_values)
         self.process_error()
@@ -68,17 +80,23 @@ class Simple_network:
             layer.train()
 
     def train(self, training_set):
-        target_input_values  = training_set.input
-        target_output_values = training_set.output
-
         l_index = len (self.layers) - 1
-        self.set_target_values(target_output_values, l_index)
-        self.get_values(target_input_values)
-        self.process_error()
 
+        q_training = training_set.training_iterations
         training_iter = 0
-        q_training = training_set.quantity
         while training_iter < q_training:
             training_iter += 1
+
+            self.set_target_values(training_set.output, l_index)
+            self.get_values(training_set.input)
+            self.process_error()
             for layer in self.layers:
                 layer.train()
+
+    def force_feed(self, layers):
+        self.layers = layers
+        q_layers = len(self.layers)
+        for j in range ( q_layers - 1 ):
+            cur_layer  = self.layers[j]
+            next_layer = self.layers[j + 1]
+            cur_layer.connect_layer(next_layer)

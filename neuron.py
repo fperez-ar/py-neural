@@ -67,3 +67,6 @@ class Neuron:
     def train(self):
         for curr_connection in self.out_connections:
             curr_connection.weight += self.current_value * curr_connection.out_neuron.error
+
+    def __str__(self):
+        return str(self.error) +', '+ str(self.current_value) +', '+ str(self.target_value)

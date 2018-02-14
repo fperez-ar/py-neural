@@ -32,7 +32,6 @@ class Layer:
         for i in range( len(self.neurons) ):
             self.neurons[i].set_target_value( value[i] )
 
-
     def process_value(self):
         for neuron in self.neurons:
             neuron.process_value()
