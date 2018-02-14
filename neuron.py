@@ -2,8 +2,7 @@ import math
 import random as rng
 import connection
 
-
-class Neuron:
+class base_neuron:
 
     def __init__(self):
         #lists of connections
@@ -13,7 +12,6 @@ class Neuron:
         self.error = 0
         self.current_value = 0
         self.target_value = 0
-
 
     def connect(self, out):
         in_neuron = self
@@ -25,23 +23,8 @@ class Neuron:
         #add an incoming connection from other to self
         out.in_connections.append(new_conn)
 
-
     def set_target_value(self, value):
         self.target_value = value;
-
-
-    def process_value(self):
-        sum = 0
-
-        if not self.in_connections: #empty list
-            #no incoming connections means it's from the input layer
-            pass
-
-        for curr_connection in self.in_connections:
-            sum += curr_connection.in_neuron.current_value * curr_connection.weight
-
-        self.current_value = 1 / ( 1 + pow(math.e, -sum) )
-
 
     def process_error(self):
         #input layer
@@ -70,3 +53,35 @@ class Neuron:
 
     def __str__(self):
         return str(self.error) +', '+ str(self.current_value) +', '+ str(self.target_value)
+
+class Neuron_sigmoid(base_neuron):
+    def process_value(self):
+        sum = 0
+
+        if not self.in_connections: #empty list
+            #no incoming connections means it's from the input layer
+            pass
+
+        for curr_connection in self.in_connections:
+            sum += curr_connection.in_neuron.current_value * curr_connection.weight
+
+        self.current_value = 1 / ( 1 + pow(math.e, -sum) )
+
+class Neuron_tanh(base_neuron):
+
+    def process_value(self):
+        sum = 0
+
+        if not self.in_connections: #empty list
+            #no incoming connections means it's from the input layer
+            pass
+
+        for curr_connection in self.in_connections:
+            sum += curr_connection.in_neuron.current_value * curr_connection.weight
+
+        #num = pow(math.e, sum) - pow(math.e, -sum)
+        #den = pow(math.e, sum) + pow(math.e, -sum)
+        #math.sinh(sum) / math.cosh(sum)
+        #1 - pow( math.tanh(sum), 2)
+        
+        self.current_value = #??

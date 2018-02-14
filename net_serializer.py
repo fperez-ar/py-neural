@@ -1,14 +1,14 @@
-import simple_network as sm
+import networks as sm
 import neuron, layer, pickle
 
 def save(simple_net, name = "config"):
     with open(name, 'wb') as config_file:
-        print("writing", name)
+        print("Writing...", name)
         pickle.dump(simple_net, config_file)
 
 def load(name):
     with open(name, 'rb') as config_file:
-        print("loading", name)
+        print("Loading...", name)
         return pickle.load(config_file)
 
 

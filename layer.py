@@ -2,9 +2,6 @@ import neuron
 
 class Layer:
 
-    def __init__(self, quantity_neurons):
-        self.neurons = [ neuron.Neuron() for n in range(quantity_neurons) ]
-
     def connect_layer(self, other_layer):
         for own_neuron in self.neurons:
             for other_neuron in other_layer.neurons:
@@ -43,3 +40,11 @@ class Layer:
     def train(self):
         for neuron in self.neurons:
             neuron.train()
+
+class Layer_sigmoid(Layer):
+    def __init__(self, quantity_neurons):
+        self.neurons = [ neuron.Neuron_sigmoid() for n in range(quantity_neurons) ]
+
+class Layer_tanh(Layer):
+    def __init__(self, quantity_neurons):
+        self.neurons = [ neuron.Neuron_tanh() for n in range(quantity_neurons) ]
